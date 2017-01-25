@@ -29,6 +29,17 @@ namespace DiscordData
 
             commands = client.GetService<CommandService>();
 
+            client.MessageReceived += async (s, e) =>
+            {
+                if (!e.Message.IsAuthor)
+                {
+                    int word = toWordCount(e.Message.Text);
+                    await e.Channel.SendMessage(word.ToString());
+                }
+            };
+
+            setupCommands();
+
             client.ExecuteAndWait(async () =>
             {
                 await client.Connect("MjMwMDcxNTM5OTE4MzA3MzM5.C2mCFA.0Y4Lu7HQXCz6PCYVxYL_ZYuSKuk", TokenType.Bot);
@@ -54,6 +65,25 @@ namespace DiscordData
             {
                 await e.Channel.SendMessage("lmao");
             });
+        }
+
+        public int toWordCount(String text)
+        {
+            int wordcount = 0, index = 0;
+
+            while(index < text.Length)
+            {
+                while (index < text.Length && !char.IsWhiteSpace(text[index]))
+                    index++;
+
+                wordcount++;
+
+                while (index < text.Length && char.IsWhiteSpace(text[index]))
+                    index++;
+            }
+
+            return wordcount;
+
         }
     }
 }
