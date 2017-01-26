@@ -4,6 +4,8 @@ using Discord;
 using Discord.Commands;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using MoreLinq;
 
 namespace DiscordData
 {
@@ -91,6 +93,20 @@ namespace DiscordData
                     + "Total Word Count: " + findUserInList(e.GetArg("Username")).totalWordCount + System.Environment.NewLine
                     + "```");
             });
+
+            commands.CreateCommand("awards")
+            .Description("!awards : Shows the highest score in each category.")
+            .Do(async (e) =>
+            {
+                User avgHigh = findHighestAvg();
+                User wordHigh = findMostWords();
+                User messHigh = findMostMess();
+
+                await e.Channel.SendMessage("```Highest Average Word Count Per Post: " + avgHigh.avgWordCount + " ("
+                    + avgHigh.name + ")" + System.Environment.NewLine + "Highest Word Count: " + wordHigh.totalWordCount
+                    + " (" + wordHigh.name + ")" + System.Environment.NewLine + "Highest Message Count: "
+                    + messHigh.totalMessCount + " (" + messHigh.name + ")```");
+            });
         }
 
         public int toWordCount(String text)
@@ -144,6 +160,24 @@ namespace DiscordData
                 }
             }
             return null;
+        }
+
+        public User findHighestAvg()
+        {
+            User user = users.MaxBy(x => x.avgWordCount);
+            return user;
+        }
+
+        public User findMostWords()
+        {
+            User user = users.MaxBy(x => x.totalWordCount);
+            return user;
+        }
+
+        public User findMostMess()
+        {
+            User user = users.MaxBy(x => x.totalMessCount);
+            return user;
         }
 
     }
