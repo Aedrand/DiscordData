@@ -1,22 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DiscordData
 {
-    class User
+    public class User
     {
-        String name { get; set; }
-        int avgWordCount { get; set; }
-        int totalMessCount { get; set; }
+        public String name { get; set; }
+        public int avgWordCount { get; set; }
+        public int totalMessCount { get; set; }
+        public int totalWordCount { get; set; }
+
+        public User()
+        {
+            name = null;
+            avgWordCount = 0;
+            totalMessCount = 0;
+            totalWordCount = 0;
+        }
 
         public User(String nm)
         {
             name = nm;
             avgWordCount = 0;
             totalMessCount = 0;
+            totalWordCount = 0;
         }
+
+        public void average()
+        {
+            this.avgWordCount = this.totalWordCount / this.totalMessCount;
+        }
+
     }
 }

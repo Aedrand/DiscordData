@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using System.Diagnostics;
+using System.IO;
 
 namespace DiscordData
 {
@@ -12,9 +11,21 @@ namespace DiscordData
     {
         DiscordClient client;
         CommandService commands;
+        public List<User> users;
+        String xmlfilepath = "C:\\Users\\Andrew Riggs\\GIT REPOS\\DiscordData\\XML\\userdata.xml";
 
         public DiscordDataBot()
         {
+            if (File.Exists(xmlfilepath))
+            {
+                users = XmlHelper.ReadFromXmlFile<List<User>>(xmlfilepath);
+            }
+            else
+            {
+                users = new List<User>();
+            }
+            
+
             client = new DiscordClient(input =>
             {
                 input.LogLevel = LogSeverity.Info;
@@ -33,8 +44,18 @@ namespace DiscordData
             {
                 if (!e.Message.IsAuthor)
                 {
-                    int word = toWordCount(e.Message.Text);
-                    await e.Channel.SendMessage(word.ToString());
+                    if(isInUserList(e.User.Name) == false)
+                    {
+                        users.Add(new User(e.User.Name));
+                        await e.Channel.SendMessage("Registered " + e.User.Name);
+                    }
+
+                    findUserInList(e.User.Name).totalMessCount++;
+                    findUserInList(e.User.Name).totalWordCount += toWordCount(e.Message.Text);
+                    findUserInList(e.User.Name).average();
+                    XmlHelper.WriteToXmlFile<List<User>>(xmlfilepath, users);
+                    await e.Channel.SendMessage(findUserInList(e.User.Name).avgWordCount.ToString());
+                    await e.Channel.SendMessage(toWordCount(e.Message.Text).ToString());
                 }
             };
 
@@ -63,7 +84,8 @@ namespace DiscordData
             .Parameter("Username", ParameterType.Required)
             .Do(async (e) =>
             {
-                await e.Channel.SendMessage("lmao");
+                await e.Channel.SendMessage("```User: " + e.GetArg("Username") + System.Environment.NewLine
+                    + "Average Word Count: " + findUserInList(e.GetArg("Username")).avgWordCount + "```");
             });
         }
 
@@ -85,5 +107,40 @@ namespace DiscordData
             return wordcount;
 
         }
+
+        public Boolean isInUserList(String nm)
+        {
+            if(users == null)
+            {
+                return false;
+            }
+
+            for(int i = 0; i < users.Capacity; i++)
+            {
+                if(nm == users[i].name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public User findUserInList(String nm)
+        {
+            if (users == null)
+            {
+                return null;
+            }
+
+            for (int i = 0; i < users.Capacity; i++)
+            {
+                if (nm == users[i].name)
+                {
+                    return users[i];
+                }
+            }
+            return null;
+        }
+
     }
 }
