@@ -2,9 +2,9 @@
 <ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <User>
     <name>Aedrand</name>
-    <avgWordCount>2.31</avgWordCount>
-    <totalMessCount>29</totalMessCount>
-    <totalWordCount>67</totalWordCount>
+    <avgWordCount>3.18</avgWordCount>
+    <totalMessCount>34</totalMessCount>
+    <totalWordCount>108</totalWordCount>
   </User>
   <User>
     <name>Old-Bot</name>
