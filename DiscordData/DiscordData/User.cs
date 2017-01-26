@@ -5,9 +5,9 @@ namespace DiscordData
     public class User
     {
         public String name { get; set; }
-        public int avgWordCount { get; set; }
-        public int totalMessCount { get; set; }
-        public int totalWordCount { get; set; }
+        public double avgWordCount { get; set; }
+        public double totalMessCount { get; set; }
+        public double totalWordCount { get; set; }
 
         public User()
         {
@@ -27,7 +27,7 @@ namespace DiscordData
 
         public void average()
         {
-            this.avgWordCount = this.totalWordCount / this.totalMessCount;
+            avgWordCount = Math.Round(totalWordCount / totalMessCount, 2);
         }
 
     }

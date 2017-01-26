@@ -11,7 +11,7 @@ namespace DiscordData
     {
         DiscordClient client;
         CommandService commands;
-        public List<User> users;
+        List<User> users;
         String xmlfilepath = "C:\\Users\\Andrew Riggs\\GIT REPOS\\DiscordData\\XML\\userdata.xml";
 
         public DiscordDataBot()
@@ -35,14 +35,14 @@ namespace DiscordData
             client.UsingCommands(x =>
             {
                 x.PrefixChar = '!';
-                x.AllowMentionPrefix = true;
+                x.AllowMentionPrefix = false;
             });
 
             commands = client.GetService<CommandService>();
 
             client.MessageReceived += async (s, e) =>
             {
-                if (!e.Message.IsAuthor)
+                if (!e.Message.IsAuthor && !e.Message.Text.StartsWith("!"))
                 {
                     if(isInUserList(e.User.Name) == false)
                     {
@@ -82,10 +82,14 @@ namespace DiscordData
 
             commands.CreateCommand("show")
             .Parameter("Username", ParameterType.Required)
+            .Description("!show 'username' : Shows the stats of a specified user.")
             .Do(async (e) =>
             {
                 await e.Channel.SendMessage("```User: " + e.GetArg("Username") + System.Environment.NewLine
-                    + "Average Word Count: " + findUserInList(e.GetArg("Username")).avgWordCount + "```");
+                    + "Average Word Count Per Post: " + findUserInList(e.GetArg("Username")).avgWordCount + System.Environment.NewLine +
+                    "Total Post Count: " + findUserInList(e.GetArg("Username")).totalMessCount + System.Environment.NewLine
+                    + "Total Word Count: " + findUserInList(e.GetArg("Username")).totalWordCount + System.Environment.NewLine
+                    + "```");
             });
         }
 
@@ -114,8 +118,8 @@ namespace DiscordData
             {
                 return false;
             }
-
-            for(int i = 0; i < users.Capacity; i++)
+            
+            for(int i = 0; i < users.Count; i++)
             {
                 if(nm == users[i].name)
                 {
@@ -132,7 +136,7 @@ namespace DiscordData
                 return null;
             }
 
-            for (int i = 0; i < users.Capacity; i++)
+            for (int i = 0; i < users.Count; i++)
             {
                 if (nm == users[i].name)
                 {
