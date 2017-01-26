@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using MoreLinq;
 
 namespace DiscordData
