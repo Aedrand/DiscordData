@@ -2,14 +2,14 @@
 <ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <User>
     <name>Aedrand</name>
-    <avgWordCount>3.18</avgWordCount>
-    <totalMessCount>34</totalMessCount>
-    <totalWordCount>108</totalWordCount>
+    <avgWordCount>1.33</avgWordCount>
+    <totalMessCount>3</totalMessCount>
+    <totalWordCount>4</totalWordCount>
   </User>
   <User>
     <name>Old-Bot</name>
     <avgWordCount>3</avgWordCount>
-    <totalMessCount>7</totalMessCount>
-    <totalWordCount>21</totalWordCount>
+    <totalMessCount>2</totalMessCount>
+    <totalWordCount>6</totalWordCount>
   </User>
 </ArrayOfUser>
