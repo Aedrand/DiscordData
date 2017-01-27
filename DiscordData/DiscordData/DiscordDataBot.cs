@@ -12,13 +12,14 @@ namespace DiscordData
         DiscordClient client;
         CommandService commands;
         List<User> users;
-        String xmlfilepath = "C:\\Users\\Andrew Riggs\\GIT REPOS\\DiscordData\\XML\\userdata.xml";
+        string xmluserfilepath = "userdata.xml";
+
 
         public DiscordDataBot()
         {
-            if (File.Exists(xmlfilepath))
+            if (File.Exists(xmluserfilepath))
             {
-                users = XmlHelper.ReadFromXmlFile<List<User>>(xmlfilepath);
+                users = XmlHelper.ReadFromXmlFile<List<User>>(xmluserfilepath);
             }
             else
             {
@@ -53,9 +54,8 @@ namespace DiscordData
                     findUserInList(e.User.Name).totalMessCount++;
                     findUserInList(e.User.Name).totalWordCount += toWordCount(e.Message.Text);
                     findUserInList(e.User.Name).average();
-                    XmlHelper.WriteToXmlFile<List<User>>(xmlfilepath, users);
-                    await e.Channel.SendMessage(findUserInList(e.User.Name).avgWordCount.ToString());
-                    await e.Channel.SendMessage(toWordCount(e.Message.Text).ToString());
+                    await e.Channel.SendMessage("K");
+                    XmlHelper.WriteToXmlFile<List<User>>(xmluserfilepath, users);
                 }
             };
 
@@ -63,7 +63,7 @@ namespace DiscordData
 
             client.ExecuteAndWait(async () =>
             {
-                await client.Connect("MjMwMDcxNTM5OTE4MzA3MzM5.C2mCFA.0Y4Lu7HQXCz6PCYVxYL_ZYuSKuk", TokenType.Bot);
+                await client.Connect("Mjc0NjU1MzU1OTUzMjE3NTM2.C21QRA.Qdw59O2Z7OVi58hKa4q8CNGbfEM", TokenType.Bot);
             });
             
         }

@@ -4,7 +4,7 @@ namespace DiscordData
 {
     public class User
     {
-        public String name { get; set; }
+        public string name { get; set; }
         public double avgWordCount { get; set; }
         public double totalMessCount { get; set; }
         public double totalWordCount { get; set; }
